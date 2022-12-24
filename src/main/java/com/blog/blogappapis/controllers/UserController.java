@@ -16,6 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.blog.blogappapis.payloads.ApiResponse;
 import com.blog.blogappapis.payloads.UserDto;
 import com.blog.blogappapis.services.UserService;
+
+import jakarta.validation.Valid;
+
 import org.springframework.web.bind.annotation.RequestBody;
 
 /**
@@ -58,7 +61,7 @@ public class UserController {
      * @return A object information user
      */
     @PostMapping
-    public ResponseEntity<UserDto> createUser(@RequestBody UserDto userDto) {
+    public ResponseEntity<UserDto> createUser(@Valid @RequestBody UserDto userDto) {
         UserDto createUserDto = this.userService.createUser(userDto);
         return new ResponseEntity<>(createUserDto, HttpStatus.CREATED);
     }
@@ -71,7 +74,8 @@ public class UserController {
      * @return A object information user
      */
     @PutMapping("/{userId}")
-    public ResponseEntity<UserDto> updateUser(@RequestBody UserDto userDto, @PathVariable("userId") Integer userId) {
+    public ResponseEntity<UserDto> updateUser(@Valid @RequestBody UserDto userDto,
+            @PathVariable("userId") Integer userId) {
         UserDto updateUser = this.userService.updateUser(userDto, userId);
         return ResponseEntity.ok(updateUser);
     }
