@@ -55,7 +55,6 @@ public class UserServiceImpl implements UserService {
         User user = this.userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User ", " id ", userId));
 
-        user.setId(userDto.getId());
         user.setName(userDto.getName());
         user.setPassword(userDto.getPassword());
         user.setEmail(userDto.getEmail());
