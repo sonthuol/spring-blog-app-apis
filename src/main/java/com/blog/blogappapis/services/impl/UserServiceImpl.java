@@ -3,7 +3,9 @@ package com.blog.blogappapis.services.impl;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.blog.blogappapis.entities.User;
 import com.blog.blogappapis.payloads.UserDto;
@@ -11,10 +13,14 @@ import com.blog.blogappapis.repositories.UserRepository;
 import com.blog.blogappapis.services.UserService;
 import com.blog.blogappapis.exceptions.ResourceNotFoundException;
 
+@Service
 public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private ModelMapper modelMapper;
 
     @Override
     public UserDto createUser(UserDto userDto) {
@@ -60,22 +66,12 @@ public class UserServiceImpl implements UserService {
     }
 
     private User dtoToUser(UserDto dto) {
-        User user = new User();
-        user.setId(dto.getId());
-        user.setName(dto.getName());
-        user.setPassword(dto.getPassword());
-        user.setEmail(dto.getEmail());
-        user.setAbout(dto.getAbout());
+        User user = this.modelMapper.map(dto, User.class);
         return user;
     }
 
     private UserDto userToDto(User user) {
-        UserDto userDto = new UserDto();
-        userDto.setId(user.getId());
-        userDto.setName(user.getName());
-        userDto.setPassword(user.getPassword());
-        userDto.setEmail(user.getEmail());
-        userDto.setAbout(user.getAbout());
+        UserDto userDto = this.modelMapper.map(user, UserDto.class);
         return userDto;
     }
 
